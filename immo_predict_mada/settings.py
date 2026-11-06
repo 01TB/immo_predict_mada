@@ -7,11 +7,26 @@ from django.utils.translation import gettext_lazy as _
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+def load_env_file(path):
+    """Load KEY=VALUE pairs from a local .env file (never committed) into os.environ."""
+    if not path.exists():
+        return
+    for line in path.read_text(encoding='utf-8').splitlines():
+        line = line.strip()
+        if not line or line.startswith('#') or '=' not in line:
+            continue
+        key, value = line.split('=', 1)
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+load_env_file(BASE_DIR / '.env')
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-your-secret-key' # Replace with a real key
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-dev-only-change-me')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True').lower() in ('1', 'true', 'yes')
 
 ALLOWED_HOSTS = []
 
@@ -73,11 +88,11 @@ WSGI_APPLICATION = 'immo_predict_mada.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis', # <-- Use PostGIS engine
-        'NAME': 'immo_predict_mada',
-        'USER': 'postgres',       # <-- Your PostgreSQL username
-        'PASSWORD': 'berthin', # <-- Your PostgreSQL password
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'NAME': os.environ.get('DB_NAME', 'immo_predict_mada'),
+        'USER': os.environ.get('DB_USER', 'postgres'),
+        'PASSWORD': os.environ.get('DB_PASSWORD', ''),
+        'HOST': os.environ.get('DB_HOST', 'localhost'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
     }
 }
 
@@ -98,9 +113,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#GDAL settings
-GDAL_DLL_NAME = "gdal.dll" # Or "gdal.dll" or whatever the actual file is named for your version
-GDAL_LIBRARY_PATH = rf'C:\Users\Tsitohaina Berthin\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\osgeo\{GDAL_DLL_NAME}'
+# GDAL settings: only needed when Django cannot find the GDAL library on its own (common on Windows)
+if os.environ.get('GDAL_LIBRARY_PATH', '').strip():
+    GDAL_LIBRARY_PATH = os.environ['GDAL_LIBRARY_PATH'].strip()
 
 # Internationalization (i18n)
 # https://docs.djangoproject.com/en/5.0/topics/i18n/

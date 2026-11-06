@@ -1,0 +1,9 @@
+Django==5.1.6
+django-crispy-forms==2.4
+crispy-bootstrap5==2025.6
+psycopg2-binary==2.9.10
+pandas==2.2.3
+numpy==2.2.4
+scikit-learn==1.7.0
+joblib==1.4.2
+# GDAL (required by GeoDjango) is installed separately: see README

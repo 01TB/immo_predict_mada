@@ -71,8 +71,10 @@ immo_predict_mada/
 ### 1. Installer les dépendances
 
 ```bash
-pip install django pandas numpy scikit-learn joblib psycopg2-binary gdal django-crispy-forms crispy-bootstrap5
+pip install -r requirements.txt
 ```
+
+GDAL s'installe à part, car son installation dépend du système (par exemple OSGeo4W ou une wheel précompilée sous Windows, `apt install gdal-bin libgdal-dev` sous Linux).
 
 ### 2. Configurer la base de données
 
@@ -84,9 +86,12 @@ CREATE DATABASE immo_predict_mada;
 CREATE EXTENSION postgis;
 ```
 
-Adapter ensuite dans `immo_predict_mada/settings.py` :
-- les identifiants de connexion dans `DATABASES` ;
-- le chemin `GDAL_LIBRARY_PATH` vers la bibliothèque GDAL de votre machine.
+Copier ensuite `.env.example` en `.env` à la racine du projet, puis renseigner :
+- la clé secrète Django (`DJANGO_SECRET_KEY`) ;
+- les identifiants PostgreSQL (`DB_USER`, `DB_PASSWORD`…) ;
+- si besoin, le chemin `GDAL_LIBRARY_PATH` vers la bibliothèque GDAL de votre machine.
+
+Le fichier `.env` est ignoré par git : vos identifiants restent sur votre machine.
 
 ### 3. Créer les tables
 
@@ -127,7 +132,7 @@ Puis ouvrir `http://127.0.0.1:8000/fr/` (ou `/mg/` pour la version malgache).
 - **Modèle volontairement simple** : comparer la régression linéaire avec des modèles non linéaires (forêt aléatoire, gradient boosting) et utiliser la validation croisée.
 - **Évaluation plus complète** : ajouter le R² et la MAE en plus de la RMSE.
 - **Pipeline unique** : regrouper l'encodage et le modèle dans un `Pipeline` scikit-learn, pour éviter de dupliquer le prétraitement entre l'entraînement et les vues.
-- **Configuration** : sortir les identifiants de base de données et la `SECRET_KEY` du code (variables d'environnement), et ajouter un `requirements.txt`.
+- **Tests** : ajouter des tests automatisés sur l'import CSV et sur les prédictions.
 
 ## Auteur
 

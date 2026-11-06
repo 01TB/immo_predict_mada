@@ -1,0 +1,16 @@
+<!-- templates/home.html -->
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}{% translate "Home" %}{% endblock %}
+
+{% block content %}
+<div class="text-center">
+    <h1>{% translate "Welcome to Immo Predict Mada" %}</h1>
+    <p class="lead">{% translate "Choose what you want to predict" %}</p>
+    <div class="d-grid gap-3 col-6 mx-auto mt-5">
+        <a href="{% url 'predict_rental' %}" class="btn btn-primary btn-lg">{% translate "Predict a Rental Budget" %}</a>
+        <a href="{% url 'predict_land' %}" class="btn btn-secondary btn-lg">{% translate "Predict a Land Purchase Budget" %}</a>
+    </div>
+</div>
+{% endblock %}

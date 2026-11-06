@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% translate "Predict Land Purchase Budget" %}{% endblock %}
+
+{% block content %}
+<h1 class="text-center">{% translate "Predict Land Purchase Budget" %}</h1>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    <h5>{% translate "Selected Town" %}</h5>
+                    <p id="selected-town-display" class="fw-bold text-primary"><em>{% translate "Click on map to select" %}</em></p>
+                    
+                    {{ form.town }} <!-- Hidden input -->
+
+                    <label for="{{ form.paper_type.id_for_label }}" class="form-label mt-2">{{ form.paper_type.label }}</label>
+                    {{ form.paper_type }}
+
+                    <label for="{{ form.access_type.id_for_label }}" class="form-label mt-2">{{ form.access_type.label }}</label>
+                    {{ form.access_type }}
+
+                    <!-- === [CORRECTION] ADDED SUPERFICY FIELD === -->
+                    <label for="{{ form.superficy.id_for_label }}" class="form-label mt-3">{{ form.superficy.label }}</label>
+                    {{ form.superficy }}
+                    
+                    <div class="mt-4">
+                        <div class="form-check">{{ form.is_fenced }} <label for="{{ form.is_fenced.id_for_label }}" class="form-check-label">{{ form.is_fenced.label }}</label></div>
+                        <div class="form-check">{{ form.is_ready_to_build }} <label for="{{ form.is_ready_to_build.id_for_label }}" class="form-check-label">{{ form.is_ready_to_build.label }}</label></div>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 mt-4 py-2">{% translate "Predict Budget" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-header fw-bold">{% translate "Select Town on Map" %}</div>
+            <div class="card-body">
+                <div id="map" style="height: 500px; border-radius: 5px;"></div>
+                <!-- This display logic remains correct as the prediction is price/sqm -->
+                {% if prediction is not None %}
+                    <div class="alert alert-success mt-3 text-center">
+                        <h4>{% translate "Predicted Budget" %}:</h4>
+                        <h2 class="fw-bold">{{ prediction|floatformat:2 }} Ar / m²</h2>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Map Initialization
+    const map = L.map('map').setView([-18.7669, 46.8691], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Fetch towns and add markers
+    fetch("{% url 'towns_geojson' %}")
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.name);
+                    layer.on('click', function (e) {
+                        const townId = feature.properties.pk;
+                        const townName = feature.properties.name;
+                        
+                        document.getElementById('id_town').value = townId;
+                        document.getElementById('selected-town-display').innerText = townName;
+                        
+                        map.closePopup();
+                        layer.openPopup();
+                    });
+                }
+            }).addTo(map);
+        });
+});
+</script>
+{% endblock %}

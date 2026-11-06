@@ -1,0 +1,304 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-06-19 21:37+0300\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\immo_predict_mada\settings.py:110
+msgid "French"
+msgstr "Français"
+
+#: .\immo_predict_mada\settings.py:111
+msgid "Malagasy"
+msgstr "Malgache"
+
+#: .\predictor\forms.py:10 .\predictor\forms.py:31 .\predictor\models.py:47
+#: .\predictor\models.py:85
+msgid "Access type"
+msgstr "Type d'accès"
+
+#: .\predictor\forms.py:11 .\predictor\models.py:48
+msgid "Property type"
+msgstr "Type de propriété"
+
+#: .\predictor\forms.py:12
+msgid "Num rooms"
+msgstr "Nombre de chambres"
+
+#: .\predictor\forms.py:13 .\templates\predict_rental.html:108
+msgid "Apartment type"
+msgstr "Type d'appartement"
+
+#: .\predictor\forms.py:16 .\predictor\models.py:53
+msgid "Exterior showers & toilets"
+msgstr "Douches et toilettes extérieures"
+
+#: .\predictor\forms.py:17 .\predictor\models.py:54
+msgid "Interior showers & toilets"
+msgstr "Douches et toilettes intérieures"
+
+#: .\predictor\forms.py:18 .\predictor\models.py:55
+msgid "Garage"
+msgstr "Garage"
+
+#: .\predictor\forms.py:19 .\predictor\models.py:56
+msgid "Garden"
+msgstr "Jardin"
+
+#: .\predictor\forms.py:29 .\predictor\models.py:84
+msgid "Paper type"
+msgstr "Type de papier"
+
+#: .\predictor\forms.py:29 .\predictor\models.py:84
+msgid "Superficy (in m²)"
+msgstr "Superficie (en m²)"
+
+#: .\predictor\forms.py:33 .\predictor\models.py:86
+msgid "Is fenced"
+msgstr "Clôturé"
+
+#: .\predictor\forms.py:35 .\predictor\models.py:87
+msgid "Is ready to build"
+msgstr "Prêt à bâtir"
+
+#: .\predictor\forms.py:40
+msgid "Select a CSV file"
+msgstr "Sélectionner un fichier CSV"
+
+#: .\predictor\models.py:9
+msgid "Town Name"
+msgstr "Nom de Ville"
+
+#: .\predictor\models.py:10
+msgid "Location on Map"
+msgstr "Localition sur la carte"
+
+#: .\predictor\models.py:15 .\predictor\models.py:46 .\predictor\models.py:83
+msgid "Town"
+msgstr "Ville"
+
+#: .\predictor\models.py:16 .\templates\upload_csv.html:20
+msgid "Towns"
+msgstr "Villes"
+
+#: .\predictor\models.py:21 .\predictor\models.py:78
+msgid "Sans accès"
+msgstr "Sans accès"
+
+#: .\predictor\models.py:22 .\predictor\models.py:79
+msgid "Accès moto"
+msgstr "Accès moto"
+
+#: .\predictor\models.py:23 .\predictor\models.py:80
+msgid "Accès voiture"
+msgstr "Accès voiture"
+
+#: .\predictor\models.py:24 .\predictor\models.py:81
+msgid "Accès voiture + parking"
+msgstr "Accès voiture + parking"
+
+#: .\predictor\models.py:27
+msgid "Apartment"
+msgstr "Appartement"
+
+#: .\predictor\models.py:28
+msgid "House"
+msgstr "Maison"
+
+#: .\predictor\models.py:49
+msgid "Subtype (T1/F1 etc.)"
+msgstr "Type de propriété"
+
+#: .\predictor\models.py:50
+msgid "Number of rooms"
+msgstr "Nombre de chambres"
+
+#: .\predictor\models.py:59
+msgid "Rental Price"
+msgstr "Prix de location"
+
+#: .\predictor\models.py:65
+msgid "Rental Property"
+msgstr "Location de Propriété"
+
+#: .\predictor\models.py:66
+msgid "Rental Properties"
+msgstr "Propriétés à louer"
+
+#: .\predictor\models.py:73
+msgid "Titre foncier"
+msgstr "Titre foncier"
+
+#: .\predictor\models.py:74
+msgid "Acte juridique"
+msgstr "Acte juridique"
+
+#: .\predictor\models.py:75
+msgid "Plan cadastré"
+msgstr "Plan cadastré"
+
+#: .\predictor\models.py:88
+msgid "Price per sqm"
+msgstr "Prix au m2"
+
+#: .\predictor\models.py:94
+msgid "Land for Sale"
+msgstr "Terrain à vendre"
+
+#: .\predictor\models.py:95
+msgid "Lands for Sale"
+msgstr "Terrains à vendre"
+
+#: .\predictor\views.py:56 .\predictor\views.py:97
+msgid "Prediction model not found. Please train the model first."
+msgstr "Le modèle de prédiction n'a pas été trouvé. Veuillez d'abord former le modèle."
+
+#: .\predictor\views.py:58 .\predictor\views.py:99
+msgid "An error occurred during prediction: "
+msgstr "Une erreur s'est produite pendant la prédiction :"
+
+#: .\predictor\views.py:128
+msgid "This is not a CSV file."
+msgstr "Il ne s'agit pas d'un fichier CSV."
+
+#: .\predictor\views.py:137
+msgid "Towns imported successfully!"
+msgstr "Towns a importé avec succès !"
+
+#: .\predictor\views.py:140
+msgid "Rental data imported successfully!"
+msgstr "Les données locatives ont été importées avec succès !"
+
+#: .\predictor\views.py:143
+msgid "Land data imported successfully!"
+msgstr "Les données foncières ont été importées avec succès !"
+
+#: .\predictor\views.py:145
+msgid "Invalid model type selected."
+msgstr "Type de modèle sélectionné non valide."
+
+#: .\predictor\views.py:148
+msgid "Error processing file: "
+msgstr "Erreur de traitement du fichier: "
+
+#: .\templates\home.html:5
+msgid "Home"
+msgstr "Accueil"
+
+#: .\templates\home.html:9
+msgid "Welcome to Immo Predict Mada"
+msgstr "Bienvenue sur Immo Predict Mada"
+
+#: .\templates\home.html:10
+msgid "Choose what you want to predict"
+msgstr "Choisissez ce que vous souhaitez prédire"
+
+#: .\templates\home.html:12
+msgid "Predict a Rental Budget"
+msgstr "Prévoir un Budget de Location"
+
+#: .\templates\home.html:13
+msgid "Predict a Land Purchase Budget"
+msgstr "Prévoir un Budget de Terrain"
+
+#: .\templates\predict_land.html:6 .\templates\predict_land.html:9
+msgid "Predict Land Purchase Budget"
+msgstr "Prévoir le Budget d'achat des Terrains"
+
+#: .\templates\predict_land.html:17 .\templates\predict_rental.html:17
+msgid "Selected Town"
+msgstr "Ville sélectionnée"
+
+#: .\templates\predict_land.html:18 .\templates\predict_rental.html:18
+msgid "Click on map to select"
+msgstr "Cliquez sur la carte pour sélectionner"
+
+#: .\templates\predict_land.html:39 .\templates\predict_rental.html:49
+msgid "Predict Budget"
+msgstr "Prévision du budget"
+
+#: .\templates\predict_land.html:46 .\templates\predict_rental.html:57
+msgid "Select Town on Map"
+msgstr "Sélectionner la ville sur la carte"
+
+#: .\templates\predict_land.html:51 .\templates\predict_rental.html:62
+msgid "Predicted Budget"
+msgstr "Budget Prédit"
+
+#: .\templates\predict_rental.html:6 .\templates\predict_rental.html:9
+msgid "Predict Rental Budget"
+msgstr "Prévoir le budget de location"
+
+#: .\templates\predict_rental.html:38 .\templates\predict_rental.html:109
+msgid "Apartment Details"
+msgstr "Détails de l'appartement"
+
+#: .\templates\predict_rental.html:43
+msgid "Available Conveniences"
+msgstr "Commodités disponibles"
+
+#: .\templates\predict_rental.html:112
+msgid "House type"
+msgstr "Type de maison"
+
+#: .\templates\predict_rental.html:113
+msgid "House Details"
+msgstr "Détials de la maison"
+
+#: .\templates\upload_csv.html:6
+msgid "Upload CSV Data"
+msgstr "Téléverser des données CSV"
+
+#: .\templates\upload_csv.html:12
+msgid "Import Data from CSV"
+msgstr "Importer des données à partir d'un fichier CSV"
+
+#: .\templates\upload_csv.html:18
+msgid "Select Data Type"
+msgstr "Sélectionner le type de données"
+
+#: .\templates\upload_csv.html:21
+msgid "Rental Data"
+msgstr "Données de Location"
+
+#: .\templates\upload_csv.html:22
+msgid "Land Data"
+msgstr "Données de Terrain"
+
+#: .\templates\upload_csv.html:28
+msgid "Upload and Import"
+msgstr "Téléversement et importation"
+
+#: .\templates\upload_csv.html:31
+msgid "CSV Structure Guide"
+msgstr "Guide de la structure CSV"
+
+#: .\templates\upload_csv.html:32
+msgid "Ensure your CSV files have the correct headers (case-sensitive)."
+msgstr "Assurez-vous que vos fichiers CSV contiennent les bons en-têtes (sensibles à la casse)."
+
+#: .\templates\upload_csv.html:33
+msgid "Towns (towns.csv)"
+msgstr "Villes (villes.csv)"
+
+#: .\templates\upload_csv.html:35
+msgid "Rentals (rentals.csv)"
+msgstr "Locations (locations.csv)"
+
+#: .\templates\upload_csv.html:37
+msgid "Land (land.csv)"
+msgstr "Terrain (land.csv)"

@@ -1,0 +1,138 @@
+<!-- templates/predict_rental.html -->
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% translate "Predict Rental Budget" %}{% endblock %}
+
+{% block content %}
+<h1 class="text-center">{% translate "Predict Rental Budget" %}</h1>
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    
+                    <h5>{% translate "Selected Town" %}</h5>
+                    <p id="selected-town-display" class="fw-bold text-primary"><em>{% translate "Click on map to select" %}</em></p>
+                    
+                    {{ form.town }} <!-- Hidden input -->
+
+                    <label for="{{ form.access_type.id_for_label }}" class="form-label mt-2">{{ form.access_type.label }}</label>
+                    {{ form.access_type }}
+
+                    <label class="form-label mt-3">{{ form.property_type.label }}</label>
+                    <div class="mb-2">
+                        {% for radio in form.property_type %}
+                        <div class="form-check form-check-inline">
+                            {{ radio.tag }}
+                            <label class="form-check-label" for="{{ radio.id_for_label }}">{{ radio.choice_label }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                    <label for="{{ form.num_rooms.id_for_label }}" class="form-label mt-2">{{ form.num_rooms.label }}</label>
+                    {{ form.num_rooms }}
+                    
+                    <h5 class="mt-4" id="details-header">{% translate "Apartment Details" %}</h5>
+                    <label id="subtype-label" for="{{ form.subtype.id_for_label }}" class="form-label">{{ form.subtype.label }}</label>
+                    {{ form.subtype }}
+
+                    <!-- === [CORRECTION] SIMPLIFIED CONVENIENCES SECTION === -->
+                    <h5 class="mt-4">{% translate "Available Conveniences" %}</h5>
+                    <div class="form-check">{{ form.exterior_showers_toilets }} <label for="{{ form.exterior_showers_toilets.id_for_label }}" class="form-check-label">{{ form.exterior_showers_toilets.label }}</label></div>
+                    <div class="form-check">{{ form.interior_showers_toilets }} <label for="{{ form.interior_showers_toilets.id_for_label }}" class="form-check-label">{{ form.interior_showers_toilets.label }}</label></div>
+                    <div class="form-check">{{ form.garage }} <label for="{{ form.garage.id_for_label }}" class="form-check-label">{{ form.garage.label }}</label></div>
+                    <div class="form-check">{{ form.garden }} <label for="{{ form.garden.id_for_label }}" class="form-check-label">{{ form.garden.label }}</label></div>
+                    
+                    <button type="submit" class="btn btn-primary w-100 mt-4 py-2">{% translate "Predict Budget" %}</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <!-- Map and Prediction result part is unchanged -->
+        <div class="card shadow-sm">
+            <div class="card-header fw-bold">{% translate "Select Town on Map" %}</div>
+            <div class="card-body">
+                <div id="map" style="height: 500px; border-radius: 5px;"></div>
+                {% if prediction is not None %}
+                    <div class="alert alert-success mt-3 text-center">
+                        <h4>{% translate "Predicted Budget" %}:</h4>
+                        <h2 class="fw-bold">{{ prediction|floatformat:2 }} Ar</h2>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const map = L.map('map').setView([-18.7669, 46.8691], 6);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    fetch("{% url 'towns_geojson' %}")
+        .then(response => response.json())
+        .then(data => {
+            L.geoJSON(data, {
+                onEachFeature: function (feature, layer) {
+                    layer.bindPopup(feature.properties.name);
+                    layer.on('click', function (e) {
+                        document.getElementById('id_town').value = feature.properties.pk;
+                        document.getElementById('selected-town-display').innerText = feature.properties.name;
+                        map.closePopup();
+                        layer.openPopup();
+                    });
+                }
+            }).addTo(map);
+        });
+
+    // === [THE DEFINITIVE JAVASCRIPT FIX] ===
+    const propertyTypeRadios = document.querySelectorAll('input[name="property_type"]');
+    const subtypeSelect = document.getElementById('id_subtype');
+    const subtypeLabel = document.getElementById('subtype-label');
+    const detailsHeader = document.getElementById('details-header');
+
+    // Get all options that Django rendered in the template
+    const allOptions = Array.from(subtypeSelect.options);
+
+    function updateSubtypeOptions() {
+        const selectedType = document.querySelector('input[name="property_type"]:checked').value;
+
+        // Temporarily clear the select to rebuild it
+        subtypeSelect.innerHTML = '';
+
+        if (selectedType === 'APARTMENT') {
+            subtypeLabel.innerText = "{% translate 'Apartment type' %}";
+            detailsHeader.innerText = "{% translate 'Apartment Details' %}";
+            // Filter and append only the 'T' options
+            allOptions.forEach(option => {
+                if (option.value.startsWith('T')) {
+                    subtypeSelect.add(option);
+                }
+            });
+        } else { // HOUSE
+            subtypeLabel.innerText = "{% translate 'House type' %}";
+            detailsHeader.innerText = "{% translate 'House Details' %}";
+            // Filter and append only the 'F' options
+            allOptions.forEach(option => {
+                if (option.value.startsWith('F')) {
+                    subtypeSelect.add(option);
+                }
+            });
+        }
+    }
+
+    propertyTypeRadios.forEach(radio => radio.addEventListener('change', updateSubtypeOptions));
+    
+    // Run it once on page load to set the initial correct state
+    updateSubtypeOptions();
+});
+</script>
+{% endblock %}

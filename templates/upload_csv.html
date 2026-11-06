@@ -1,0 +1,42 @@
+<!-- templates/upload_csv.html -->
+{% extends "base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}{% translate "Upload CSV Data" %}{% endblock %}
+
+{% block content %}
+<div class="col-md-8 mx-auto">
+    <div class="card">
+        <div class="card-header">
+            <h3>{% translate "Import Data from CSV" %}</h3>
+        </div>
+        <div class="card-body">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="model_type" class="form-label">{% translate "Select Data Type" %}</label>
+                    <select name="model_type" id="model_type" class="form-select" required>
+                        <option value="towns">{% translate "Towns" %}</option>
+                        <option value="rentals">{% translate "Rental Data" %}</option>
+                        <option value="land">{% translate "Land Data" %}</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    {{ form|crispy }}
+                </div>
+                <button type="submit" class="btn btn-primary">{% translate "Upload and Import" %}</button>
+            </form>
+            <hr>
+            <h4>{% translate "CSV Structure Guide" %}</h4>
+            <p>{% translate "Ensure your CSV files have the correct headers (case-sensitive)." %}</p>
+            <h5>{% translate "Towns (towns.csv)" %}</h5>
+            <code>name,latitude,longitude</code>
+            <h5>{% translate "Rentals (rentals.csv)" %}</h5>
+            <code>town_name,access_type,property_type,subtype,num_rooms,exterior_showers_toilets,interior_showers_toilets,garage,garden,house_basement,parking,surveillance_system,dishwasher,washing_machine,internet_access,price</code>
+            <h5>{% translate "Land (land.csv)" %}</h5>
+            <code>town_name,paper_type,access_type,is_fenced,is_ready_to_build,price_per_sqm</code>
+        </div>
+    </div>
+</div>
+{% endblock %}
